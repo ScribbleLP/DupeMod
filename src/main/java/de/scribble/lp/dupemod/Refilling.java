@@ -6,22 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import akka.dispatch.sysmsg.Create;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import scala.collection.immutable.VectorBuilder;
 @Deprecated
 public class Refilling {
 	private Minecraft mc= Minecraft.getMinecraft(); 
@@ -154,7 +149,7 @@ public class Refilling {
 							if(endidyidem.lifespan>Integer.parseInt(props[11])){	//check if value is bigger than the lifespan aka over 6000
 								endidyidem.lifespan=endidyidem.lifespan-Integer.parseInt(props[11]);
 							}
-							if(props[12].equals("null")) {
+							if(props[12].equals("null")){
 								if(endidyidem.getAge()<10){
 									endidyidem.setPickupDelay(10-Integer.parseInt(props[11]));
 								}

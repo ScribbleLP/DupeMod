@@ -7,17 +7,24 @@ import java.util.List;
 import com.google.common.io.Files;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEndGateway;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
+import net.minecraft.world.gen.feature.WorldGenDoublePlant;
 @Deprecated
 public class Recording {
 	private Minecraft mc= Minecraft.getMinecraft();
@@ -100,7 +107,8 @@ public class Recording {
 		
 		output.append("END");
 		try {
-			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");				Files.write(output.toString().getBytes(), file);
+			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");
+			Files.write(output.toString().getBytes(), file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

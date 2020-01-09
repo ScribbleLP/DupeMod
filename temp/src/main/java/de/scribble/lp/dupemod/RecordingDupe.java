@@ -18,8 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-@Deprecated
-public class Recording {
+public class RecordingDupe {
 	private Minecraft mc= Minecraft.getMinecraft();
 	private StringBuilder output = new StringBuilder();
 	private int chestcounter=0;
@@ -40,7 +39,7 @@ public class Recording {
 		BlockPos playerPos = new BlockPos(player);
 		
 		output.append("Chest:\n");
-		
+		/*Search for chests around the player*/
 		for(int x=-5; x<=5; x++){				//x
 			for(int y=-5; y<=5; y++){			//y
 				for(int z=-5; z<=5; z++){		//z
@@ -50,17 +49,17 @@ public class Recording {
 						chestcounter++;
 						//sendMessage(foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1));
 
-						output.append("\t"+foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1)+"\n");
+						output.append("\t"+foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1)+"\n"); //add a chest to the list
 						
 						for(int i=0; i<foundchest.getSizeInventory();i++){
 							ItemStack item = foundchest.getStackInSlot(i);
 							if (Item.getIdFromItem(item.getItem())!=0){
 								if(item.hasDisplayName()){
 									//sendMessage("Slot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+"\n");
-									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+"\n");
+									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+";"+item.stackTagCompound.toString()+"\n");
 								}else{
 									//sendMessage("Slot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+"\n");
-									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+"\n");
+									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+";"+item.stackTagCompound.toString()+"\n");
 								}
 							}
 						}
@@ -82,25 +81,30 @@ public class Recording {
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){
 				if(entitylist.get(i).getItem().hasDisplayName()){
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";"+entitylist.get(i).getItem().getDisplayName()+";"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";"+entitylist.get(i).getItem().getDisplayName()+";"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).pickupDelay+";"+entitylist.get(i).getItem().stackTagCompound.toString()+"\n");
 				}else{
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";null;"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";null;"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).pickupDelay+";"+entitylist.get(i).getItem().stackTagCompound.toString()+"\n");
 				}
 			}
 		}
 		output.append("\t-\n");
 		
 	}
+	/**
+	 * Kicks off the recording process
+	 * @param player
+	 */
 	public void saveFile(EntityPlayer player){
 		File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
-		output.append("#This file was generated by the DupeMod, the author is ScribbleLP.\n");
+		output.append("#This file was generated by TASTools, the author is ScribbleLP. To prevent this file being generated, check the tastools.cfg\n");
 	
 		nearbyChest(player);
 		nearbyItems(player);
 		
 		output.append("END");
 		try {
-			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");				Files.write(output.toString().getBytes(), file);
+			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");
+			Files.write(output.toString().getBytes(), file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
