@@ -2,11 +2,9 @@ package de.scribble.lp.dupemod;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.input.Keyboard;
 
 import de.scribble.lp.dupemod.commands.DupeCommandc;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -22,8 +20,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 public class DupeMod
 {
     public static final String MODID = "dupemod";
-    public static final String VERSION="${version}";
-    public static final String MCVERSION="${mcversion}";
+    public static final String VERSION = "1.6";
     public static final String NAME= "DupeMod";
     public static Logger logger= LogManager.getLogger("DupeMod");
     private Minecraft mc = Minecraft.getMinecraft();
@@ -38,9 +35,8 @@ public class DupeMod
 	public static CommonProxy proxy;
 	
 	public static SimpleNetworkWrapper NETWORK;
-  
     
-    @EventHandler
+	@EventHandler
     public void preinit(FMLPreInitializationEvent event){
     	logger.info("Initializing");
     	proxy.preInit(event);

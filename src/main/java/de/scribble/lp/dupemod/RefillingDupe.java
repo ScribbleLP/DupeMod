@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import io.netty.handler.codec.AsciiHeadersEncoder.NewlineType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
@@ -90,21 +89,9 @@ public class RefillingDupe {
 																								Integer.parseInt(items[4]),
 																								Integer.parseInt(items[5]));
 										
-										/*Split items[7] into enchantmentID and enchantmentLvl*/
-										if(!items[7].equals("[]")){
-											enchantments=items[7].split("(\\[\\{lvl:)|(s,id:)|(s\\},\\{lvl:)|(s\\})");
-											for(int index=1;index<=(enchantments.length-2)/2;index++){
-												properties.addEnchantment(Enchantment.getEnchantmentByID(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
-											}
-										}
-										/*Add the custom name if available*/
-										if(!items[6].equals("null")){
-											properties.setStackDisplayName(items[6]);
-										}
-										/*Adding NBT to the item*/
 										NBTTagCompound newnbttag= new NBTTagCompound();
 										try {
-											newnbttag = JsonToNBT.getTagFromJson(items[8]);
+											newnbttag = JsonToNBT.getTagFromJson(items[6]); //items[6]=NBTList such as Enchantments or a custom name
 										} catch (NBTException e) {
 											DupeMod.logger.error("Something happened while trying to convert String to NBT");
 											DupeMod.logger.catching(e);
@@ -128,7 +115,7 @@ public class RefillingDupe {
 					
 					String[] position=s.split(":");
 					BlockPos dupePos= new BlockPos(Integer.parseInt(position[1]),Integer.parseInt(position[2]),Integer.parseInt(position[3]));	//get the position where the s+q was done
-					List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(dupePos).grow(10.0));			//get all entityitems around the player
+					List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(dupePos).expandXyz(10.0));			//get all entityitems around the player
 					
 					
 					if(playerPos.distanceSq((double)dupePos.getX(),(double)dupePos.getY(),(double)dupePos.getZ())>=50.0){						//abort if the player is too far away from the duping position, cheat prevention and failsafe when using /dupe
@@ -151,6 +138,7 @@ public class RefillingDupe {
 									Integer.parseInt(props[7]),
 									Integer.parseInt(props[8]));
 							
+							/*
 							if(!props[10].equals("[]")){	//add Enchantments
 								enchantments=props[10].split("(\\[\\{lvl:)|(s,id:)|(s\\},\\{lvl:)|(s\\})");
 								for(int index=1;index<=(enchantments.length-2)/2;index++){
@@ -160,10 +148,11 @@ public class RefillingDupe {
 							if(!props[9].equals("null")){ //set customName
 								Overflow.setStackDisplayName(props[9]);
 							}
+							*/
 							//Adding NBT to the item
 							NBTTagCompound newnbttag= new NBTTagCompound();
 							try {
-								newnbttag = JsonToNBT.getTagFromJson(props[13]);
+								newnbttag = JsonToNBT.getTagFromJson(props[11]);
 							} catch (NBTException e) {
 								DupeMod.logger.error("Something happened while trying to convert String to NBT");
 								DupeMod.logger.catching(e);
@@ -174,10 +163,10 @@ public class RefillingDupe {
 							world.spawnEntity(newitem);
 							
 							//Apply the age
-							newitem.age=Integer.parseInt(props[11]);
+							newitem.age=Integer.parseInt(props[9]);
 							
 							//Apply the pickupdelay
-							newitem.delayBeforeCanPickup=Integer.parseInt(props[12]);
+							newitem.delayBeforeCanPickup=Integer.parseInt(props[10]);
 							
 							
 							newitem.motionX=0;	//set the motion to zero so it doesn't fly around

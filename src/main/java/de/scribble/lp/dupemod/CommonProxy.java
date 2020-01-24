@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent ev) {
 		DupeMod.NETWORK= NetworkRegistry.INSTANCE.newSimpleChannel("dupemod");
-		DupeMod.NETWORK.registerMessage(DupePacketHandler.class, DupePacket.class, 3, Side.SERVER);
+		DupeMod.NETWORK.registerMessage(DupePacketHandler.class, DupePacket.class, 0, Side.SERVER);
 	}
 
 	public void Init(FMLInitializationEvent ev) {

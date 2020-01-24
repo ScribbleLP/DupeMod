@@ -4,7 +4,9 @@ import java.io.File;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -49,12 +51,6 @@ public class DupeEvents {
 		Minecraft.getMinecraft().player.velocityChanged=true;
 		playa.setEntityInvulnerable(true);
 		MinecraftForge.EVENT_BUS.register(stopit);
-	}
-	public void recordDupe(EntityPlayer player) {
-		if(!mc.getIntegratedServer().getPublic()) {
-			DupeMod.logger.info("Start saving...");
-			new RecordingDupe().saveFile(player);
-		}
 	}
 }
 class StopMoving extends DupeEvents{

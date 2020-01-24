@@ -7,17 +7,24 @@ import java.util.List;
 import com.google.common.io.Files;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEndGateway;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
+import net.minecraft.world.gen.feature.WorldGenDoublePlant;
 @Deprecated
 public class Recording {
 	private Minecraft mc= Minecraft.getMinecraft();
@@ -77,14 +84,14 @@ public class Recording {
 		
 		output.append("Items:"+playerPos.getX()+":"+playerPos.getY()+":"+playerPos.getZ()+"\n");
 		
-		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos).grow(10.0));
+		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos).expandXyz(10.0));
 		if(!entitylist.isEmpty()){
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){
-				if(entitylist.get(i).getItem().hasDisplayName()){
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";"+entitylist.get(i).getItem().getDisplayName()+";"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+				if(entitylist.get(i).getEntityItem().hasDisplayName()){
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().getCount()+";"+entitylist.get(i).getEntityItem().getItemDamage()+";"+entitylist.get(i).getEntityItem().getDisplayName()+";"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
 				}else{
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getItem().getItem())+";("+entitylist.get(i).getItem().getUnlocalizedName()+");"+entitylist.get(i).getItem().getCount()+";"+entitylist.get(i).getItem().getItemDamage()+";null;"+entitylist.get(i).getItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().getCount()+";"+entitylist.get(i).getEntityItem().getItemDamage()+";null;"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
 				}
 			}
 		}
@@ -99,10 +106,13 @@ public class Recording {
 		nearbyItems(player);
 		
 		output.append("END");
+
 		try {
-			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");				Files.write(output.toString().getBytes(), file);
+			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");
+			Files.write(output.toString().getBytes(), file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		DupeMod.logger.info("No chests or items found, file won't be saved");
 	}
 }

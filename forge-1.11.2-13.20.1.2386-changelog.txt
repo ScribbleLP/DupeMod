@@ -1,8 +1,5 @@
 Changelog:
-Build 2387:
-	LexManos: Version bump for RB
-
-Build 1.11.2-13.20.1.2386:
+Build 2386:
 	LexManos: Version Bump for RB
 
 Build 1.12-14.21.0.2385:
