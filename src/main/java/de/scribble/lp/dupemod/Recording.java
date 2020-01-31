@@ -61,13 +61,13 @@ public class Recording {
 						
 						for(int i=0; i<foundchest.getSizeInventory();i++){
 							ItemStack item = foundchest.getStackInSlot(i);
-							if (Item.getIdFromItem(item.getItem())!=0){
+							if(item != null){
 								if(item.hasDisplayName()){
 									//sendMessage("Slot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+"\n");
-									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+"\n");
+									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.stackSize+";"+item.getItemDamage()+";"+item.getDisplayName()+";"+item.getEnchantmentTagList()+"\n");
 								}else{
 									//sendMessage("Slot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+"\n");
-									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.getCount()+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+"\n");
+									output.append("\t\tSlot;"+i+";"+Item.getIdFromItem(item.getItem())+";("+item.getUnlocalizedName()+");"+item.stackSize+";"+item.getItemDamage()+";null;"+item.getEnchantmentTagList()+"\n");
 								}
 							}
 						}
@@ -89,9 +89,9 @@ public class Recording {
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){
 				if(entitylist.get(i).getEntityItem().hasDisplayName()){
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().getCount()+";"+entitylist.get(i).getEntityItem().getItemDamage()+";"+entitylist.get(i).getEntityItem().getDisplayName()+";"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";"+entitylist.get(i).getEntityItem().getDisplayName()+";"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
 				}else{
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().getCount()+";"+entitylist.get(i).getEntityItem().getItemDamage()+";null;"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";null;"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
 				}
 			}
 		}
@@ -106,13 +106,11 @@ public class Recording {
 		nearbyItems(player);
 		
 		output.append("END");
-
 		try {
 			DupeMod.logger.info("Saving "+chestcounter+" chest(s) and "+ itemcounter+ " item(s).");
 			Files.write(output.toString().getBytes(), file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		DupeMod.logger.info("No chests or items found, file won't be saved");
 	}
 }

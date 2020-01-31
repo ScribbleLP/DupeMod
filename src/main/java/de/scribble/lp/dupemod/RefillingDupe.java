@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -160,7 +159,7 @@ public class RefillingDupe {
 							Overflow.stackTagCompound=newnbttag;
 							
 							EntityItem newitem=new EntityItem(world, Double.parseDouble(props[2]), Double.parseDouble(props[3]), Double.parseDouble(props[4]), Overflow);
-							world.spawnEntity(newitem);
+							world.spawnEntityInWorld(newitem);
 							
 							//Apply the age
 							newitem.age=Integer.parseInt(props[9]);

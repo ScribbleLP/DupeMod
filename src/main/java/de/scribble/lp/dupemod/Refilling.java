@@ -88,7 +88,7 @@ public class Refilling {
 										ItemStack properties= new ItemStack(Item.getItemById(Integer.parseInt(items[2])),
 																								Integer.parseInt(items[4]),
 																								Integer.parseInt(items[5]));
-										if(!items[7].equals("[]")){
+										if(!items[7].equals("null")){
 											enchantments=items[7].split("(\\[0+:\\{lvl:)|(s,id:)|(s\\},[0-9]+:\\{lvl:)+|(s\\})");
 											for(int index=1;index<=(enchantments.length-2)/2;index++){
 												properties.addEnchantment(Enchantment.getEnchantmentByID(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
@@ -147,7 +147,7 @@ public class Refilling {
 								Overflow.setStackDisplayName(props[9]);
 							}
 							EntityItem endidyidem=new EntityItem(world, Double.parseDouble(props[2]), Double.parseDouble(props[3]), Double.parseDouble(props[4]), Overflow);
-							world.spawnEntity(endidyidem);
+							world.spawnEntityInWorld(endidyidem);
 							if(endidyidem.lifespan>Integer.parseInt(props[11])){	//check if value is bigger than the lifespan aka over 6000
 								endidyidem.lifespan=endidyidem.lifespan-Integer.parseInt(props[11]);
 							}

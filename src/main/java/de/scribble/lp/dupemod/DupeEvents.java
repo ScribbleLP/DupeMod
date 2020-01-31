@@ -3,10 +3,10 @@ package de.scribble.lp.dupemod;
 import java.io.File;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -19,7 +19,7 @@ public class DupeEvents {
 	
 	@SubscribeEvent
 	public void onCloseServer(PlayerEvent.PlayerLoggedOutEvent ev){
-		if(!mc.getIntegratedServer().getPublic()) {
+		if(mc.currentScreen instanceof GuiIngameMenu){
 			DupeMod.logger.info("Start saving...");
 			new RecordingDupe().saveFile(ev.player);
 		}
@@ -27,28 +27,26 @@ public class DupeEvents {
 	
 	@SubscribeEvent
 	public void onOpenServer(PlayerEvent.PlayerLoggedInEvent ev){
-		if (!mc.getIntegratedServer().getPublic()) {
-			File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
-			if (file.exists()){
-				DupeMod.logger.info("Start refilling...");
-				new RefillingDupe().refill(file, ev.player);
-			}
+		File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
+		if (file.exists()){
+			DupeMod.logger.info("Start refilling...");
+			new RefillingDupe().refill(file, ev.player);
 		}
 	}
 	
 	@SubscribeEvent
-	public void pressKeybinding(InputEvent.KeyInputEvent ev) {
-		if (ClientProxy.DupeKey.isPressed()) {
-			DupeMod.NETWORK.sendToServer(new DupePacket());
-		}
+	public void pressKeybinding(InputEvent.KeyInputEvent ev){
+			if(ClientProxy.DupeKey.isPressed()){
+				DupeMod.NETWORK.sendToServer(new DupePacket());
+			}
 	}
 	public void startStopping(EntityPlayer player) {
 		StopMoving stopit = new StopMoving();
 		playa= player;
-		Minecraft.getMinecraft().player.motionX=0;
-		Minecraft.getMinecraft().player.motionY=0;
-		Minecraft.getMinecraft().player.motionZ=0;
-		Minecraft.getMinecraft().player.velocityChanged=true;
+		Minecraft.getMinecraft().thePlayer.motionX=0;
+		Minecraft.getMinecraft().thePlayer.motionY=0;
+		Minecraft.getMinecraft().thePlayer.motionZ=0;
+		Minecraft.getMinecraft().thePlayer.velocityChanged=true;
 		playa.setEntityInvulnerable(true);
 		MinecraftForge.EVENT_BUS.register(stopit);
 	}

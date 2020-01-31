@@ -51,13 +51,14 @@ public class RecordingDupe {
 						//sendMessage(foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1));
 
 						output.append("\t"+foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1)+"\n"); //add a chest to the list
-						
 						for(int i=0; i<foundchest.getSizeInventory();i++){
 							ItemStack item = foundchest.getStackInSlot(i);
-							if (Item.getIdFromItem(item.getItem())!=0){
-								output.append("\t\tSlot;" + i + ";" + Item.getIdFromItem(item.getItem()) + ";("
-										+ item.getUnlocalizedName() + ");" + item.getCount() + ";"
-										+ item.getItemDamage() + ";" + item.stackTagCompound.toString() + "\n");
+							if(item != null){
+								if (Item.getIdFromItem(item.getItem())!=0){
+									output.append("\t\tSlot;" + i + ";" + Item.getIdFromItem(item.getItem()) + ";("
+											+ item.getUnlocalizedName() + ");" + item.stackSize + ";"
+											+ item.getItemDamage() + ";" + item.stackTagCompound.toString() + "\n");
+								}
 							}
 						}
 						output.append("\t\t-\n");
@@ -81,7 +82,7 @@ public class RecordingDupe {
 						+ entitylist.get(i).posZ + ";"
 						+ Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem()) + ";("
 						+ entitylist.get(i).getEntityItem().getUnlocalizedName() + ");"
-						+ entitylist.get(i).getEntityItem().getCount() + ";"
+						+ entitylist.get(i).getEntityItem().stackSize + ";"
 						+ entitylist.get(i).getEntityItem().getItemDamage()+";"
 						+ entitylist.get(i).getAge() + ";" + entitylist.get(i).delayBeforeCanPickup + ";"
 						+ isStackCompound(entitylist.get(i).getEntityItem().stackTagCompound)+"\n");
