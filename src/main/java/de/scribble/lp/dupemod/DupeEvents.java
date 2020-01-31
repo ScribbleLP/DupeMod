@@ -5,7 +5,6 @@ import java.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -19,7 +18,7 @@ public class DupeEvents {
 	
 	@SubscribeEvent
 	public void onCloseServer(PlayerEvent.PlayerLoggedOutEvent ev){
-		if(mc.currentScreen instanceof GuiIngameMenu){
+		if(!mc.getIntegratedServer().getPublic()&&mc.currentScreen instanceof GuiIngameMenu) {
 			DupeMod.logger.info("Start saving...");
 			new RecordingDupe().saveFile(ev.player);
 		}
@@ -27,18 +26,20 @@ public class DupeEvents {
 	
 	@SubscribeEvent
 	public void onOpenServer(PlayerEvent.PlayerLoggedInEvent ev){
-		File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
-		if (file.exists()){
-			DupeMod.logger.info("Start refilling...");
-			new RefillingDupe().refill(file, ev.player);
+		if (!mc.getIntegratedServer().getPublic()) {
+			File file = new File(mc.mcDataDir, "saves" + File.separator + mc.getIntegratedServer().getFolderName()+ File.separator + "latest_dupe.txt");
+			if (file.exists()) {
+				DupeMod.logger.info("Start refilling...");
+				new RefillingDupe().refill(file, ev.player);
+			}
 		}
 	}
 	
 	@SubscribeEvent
-	public void pressKeybinding(InputEvent.KeyInputEvent ev){
-			if(ClientProxy.DupeKey.isPressed()){
-				DupeMod.NETWORK.sendToServer(new DupePacket());
-			}
+	public void pressKeybinding(InputEvent.KeyInputEvent ev) {
+		if (ClientProxy.DupeKey.isPressed()) {
+			DupeMod.NETWORK.sendToServer(new DupePacket());
+		}
 	}
 	public void startStopping(EntityPlayer player) {
 		StopMoving stopit = new StopMoving();

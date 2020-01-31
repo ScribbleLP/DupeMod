@@ -4,7 +4,7 @@
   "name": "DupeMod",
   "description": "Enables duping in Minecraft Forge",
   "version": "1.6",
-  "mcversion": "1.10.2",
+  "mcversion": "1.9.4",
   "url": "https://minecraft.curseforge.com/projects/dupemod",
   "updateUrl": "",
   "authorList": ["ScribbleLP"],

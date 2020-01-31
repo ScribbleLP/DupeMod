@@ -57,7 +57,7 @@ public class RecordingDupe {
 								if (Item.getIdFromItem(item.getItem())!=0){
 									output.append("\t\tSlot;" + i + ";" + Item.getIdFromItem(item.getItem()) + ";("
 											+ item.getUnlocalizedName() + ");" + item.stackSize + ";"
-											+ item.getItemDamage() + ";" + item.stackTagCompound.toString() + "\n");
+											+ item.getItemDamage() + ";" + isStackCompound(item.stackTagCompound) + "\n");
 								}
 							}
 						}
