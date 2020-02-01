@@ -7,24 +7,16 @@ import java.util.List;
 import com.google.common.io.Files;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityEndGateway;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenDoublePlant;
 @Deprecated
 public class Recording {
 	private Minecraft mc= Minecraft.getMinecraft();
@@ -34,7 +26,7 @@ public class Recording {
 	
 	public static void sendMessage(String msg){
 		try{
-			Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(msg));
+			Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(msg));
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -44,7 +36,7 @@ public class Recording {
 	public void nearbyChest(EntityPlayer player){
 
 		World world = player.getEntityWorld();
-		BlockPos playerPos = new BlockPos(player);
+		BlockPos playerPos = new net.minecraft.util.BlockPos(player);
 		
 		output.append("Chest:\n");
 		
@@ -52,7 +44,7 @@ public class Recording {
 			for(int y=-5; y<=5; y++){			//y
 				for(int z=-5; z<=5; z++){		//z
 
-					if (world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.CHEST||world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.TRAPPED_CHEST){
+					if (world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.chest||world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.trapped_chest){
 						TileEntityChest foundchest =(TileEntityChest) world.getTileEntity(playerPos.add(x,y,z));
 						chestcounter++;
 						//sendMessage(foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1));
@@ -84,7 +76,7 @@ public class Recording {
 		
 		output.append("Items:"+playerPos.getX()+":"+playerPos.getY()+":"+playerPos.getZ()+"\n");
 		
-		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos).expandXyz(10.0));
+		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos, playerPos).expand(10.0, 10.0, 10.0));
 		if(!entitylist.isEmpty()){
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){

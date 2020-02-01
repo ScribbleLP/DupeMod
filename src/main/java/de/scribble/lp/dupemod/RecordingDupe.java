@@ -14,9 +14,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class RecordingDupe {
@@ -24,14 +23,6 @@ public class RecordingDupe {
 	private StringBuilder output = new StringBuilder();
 	private int chestcounter=0;
 	private int itemcounter=0;
-	
-	public static void sendMessage(String msg){
-		try{
-			Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(msg));
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
 	
 	
 	public void nearbyChest(EntityPlayer player){
@@ -45,7 +36,7 @@ public class RecordingDupe {
 			for(int y=-5; y<=5; y++){			//y
 				for(int z=-5; z<=5; z++){		//z
 
-					if (world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.CHEST||world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.TRAPPED_CHEST){
+					if (world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.chest||world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.trapped_chest){
 						TileEntityChest foundchest =(TileEntityChest) world.getTileEntity(playerPos.add(x,y,z));
 						chestcounter++;
 						//sendMessage(foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1));
@@ -74,7 +65,7 @@ public class RecordingDupe {
 		
 		output.append("Items:"+playerPos.getX()+":"+playerPos.getY()+":"+playerPos.getZ()+"\n");
 		
-		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos).expandXyz(10.0));
+		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos, playerPos).expand(10.0, 10.0, 10.0));
 		if(!entitylist.isEmpty()){
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){

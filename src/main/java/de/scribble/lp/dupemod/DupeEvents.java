@@ -48,7 +48,7 @@ public class DupeEvents {
 		Minecraft.getMinecraft().thePlayer.motionY=0;
 		Minecraft.getMinecraft().thePlayer.motionZ=0;
 		Minecraft.getMinecraft().thePlayer.velocityChanged=true;
-		playa.setEntityInvulnerable(true);
+		playa.capabilities.disableDamage=true;
 		MinecraftForge.EVENT_BUS.register(stopit);
 	}
 }
@@ -71,8 +71,8 @@ class StopMoving extends DupeEvents{
 				mc.gameSettings.keyBindUseItem.pressed = false;
 			}
 			if(length==60) {
-				if(!playa.isCreative()&&!playa.isSpectator()) {
-					playa.setEntityInvulnerable(false);
+				if(!playa.capabilities.isCreativeMode&&!playa.isSpectator()) {
+					playa.capabilities.disableDamage=false;
 				}
 				MinecraftForge.EVENT_BUS.unregister(this);
 			}

@@ -6,22 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import akka.dispatch.sysmsg.Create;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import scala.collection.immutable.VectorBuilder;
 @Deprecated
 public class Refilling {
 	private Minecraft mc= Minecraft.getMinecraft(); 
@@ -46,7 +41,7 @@ public class Refilling {
 		String[] items;
 		String[] enchantments;
 		World world = player.getEntityWorld();
-		BlockPos playerPos = new BlockPos(player);
+		net.minecraft.util.BlockPos playerPos = new net.minecraft.util.BlockPos(player);
 		try{
 			BufferedReader Buff = new BufferedReader(new FileReader(file));
 			String s;
@@ -67,7 +62,7 @@ public class Refilling {
 						}
 						else if(s.startsWith("\tx")){
 							coords=s.split("(x=)|(,\\ y=)|(,\\ z=)");
-							if (world.getBlockState(new BlockPos(Integer.parseInt(coords[1]),Integer.parseInt(coords[2]),Integer.parseInt(coords[3]))).getBlock()== Blocks.CHEST||world.getBlockState(new BlockPos(Integer.parseInt(coords[1]),Integer.parseInt(coords[2]),Integer.parseInt(coords[3]))).getBlock()== Blocks.TRAPPED_CHEST){
+							if (world.getBlockState(new BlockPos(Integer.parseInt(coords[1]),Integer.parseInt(coords[2]),Integer.parseInt(coords[3]))).getBlock()== Blocks.chest||world.getBlockState(new BlockPos(Integer.parseInt(coords[1]),Integer.parseInt(coords[2]),Integer.parseInt(coords[3]))).getBlock()== Blocks.trapped_chest){
 									
 								foundchest= (TileEntityChest) world.getTileEntity(new BlockPos(Integer.parseInt(coords[1]),Integer.parseInt(coords[2]),Integer.parseInt(coords[3])));
 							
@@ -91,7 +86,7 @@ public class Refilling {
 										if(!items[7].equals("null")){
 											enchantments=items[7].split("(\\[0+:\\{lvl:)|(s,id:)|(s\\},[0-9]+:\\{lvl:)+|(s\\})");
 											for(int index=1;index<=(enchantments.length-2)/2;index++){
-												properties.addEnchantment(Enchantment.getEnchantmentByID(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
+												properties.addEnchantment(Enchantment.getEnchantmentById(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
 											}
 										}
 										if(!items[6].equals("null")){
@@ -114,7 +109,7 @@ public class Refilling {
 					
 					String[] position=s.split(":");
 					BlockPos dupePos= new BlockPos(Integer.parseInt(position[1]),Integer.parseInt(position[2]),Integer.parseInt(position[3]));
-					List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(dupePos).expandXyz(10.0));
+					List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(dupePos, dupePos).expand(10.0, 10.0, 10.0));
 					
 					
 					if(playerPos.distanceSq((double)dupePos.getX(),(double)dupePos.getY(),(double)dupePos.getZ())>=50.0){
@@ -140,7 +135,7 @@ public class Refilling {
 							if(!props[10].equals("null")){
 								enchantments=props[10].split("(\\[0+:\\{lvl:)|(s,id:)|(s\\},[0-9]+:\\{lvl:)+|(s\\})");
 								for(int index=1;index<=(enchantments.length-2)/2;index++){
-									Overflow.addEnchantment(Enchantment.getEnchantmentByID(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
+									Overflow.addEnchantment(Enchantment.getEnchantmentById(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
 								}
 							}
 							if(!props[9].equals("null")){

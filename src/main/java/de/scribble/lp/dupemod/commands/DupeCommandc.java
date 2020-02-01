@@ -4,16 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.scribble.lp.dupemod.Recording;
-import de.scribble.lp.dupemod.Refilling;
 import de.scribble.lp.dupemod.RefillingDupe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 
 public class DupeCommandc extends CommandBase{
 	private Minecraft mc= Minecraft.getMinecraft();
@@ -42,7 +38,7 @@ public class DupeCommandc extends CommandBase{
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if(sender instanceof EntityPlayer && mc.thePlayer.getEntityWorld().isRemote){
 			if(args.length==0||(args[0].equalsIgnoreCase("chest")&&args.length==1)){
 				File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
