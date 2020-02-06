@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.scribble.lp.dupemod.RefillingDupe;
+import de.scribble.lp.dupemod.Refilling;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -40,9 +40,9 @@ public class DupeCommandc extends CommandBase{
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		if(sender instanceof EntityPlayer && mc.thePlayer.getEntityWorld().isRemote){
-			if(args.length==0||(args[0].equalsIgnoreCase("chest")&&args.length==1)){
+			if (args.length==0){
 				File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
-				if (file.exists())new RefillingDupe().refill(file, (EntityPlayer)sender);
+				if (file.exists())new Refilling().refill(file, (EntityPlayer)sender);
 			}
 		}
 	}

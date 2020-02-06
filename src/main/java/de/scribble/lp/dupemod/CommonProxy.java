@@ -1,10 +1,11 @@
 package de.scribble.lp.dupemod;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent ev) {
@@ -13,6 +14,7 @@ public class CommonProxy {
 	}
 
 	public void Init(FMLInitializationEvent ev) {
-		MinecraftForge.EVENT_BUS.register(new DupeEvents());
+		MinecraftForge.EVENT_BUS.register(new DupeEvents2());
+		FMLCommonHandler.instance().bus().register(new DupeEvents());
 	}
 }

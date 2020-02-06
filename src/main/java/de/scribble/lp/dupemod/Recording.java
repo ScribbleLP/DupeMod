@@ -13,8 +13,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 @Deprecated
@@ -36,7 +34,7 @@ public class Recording {
 	public void nearbyChest(EntityPlayer player){
 
 		World world = player.getEntityWorld();
-		BlockPos playerPos = new net.minecraft.util.BlockPos(player);
+		
 		
 		output.append("Chest:\n");
 		
@@ -44,12 +42,12 @@ public class Recording {
 			for(int y=-5; y<=5; y++){			//y
 				for(int z=-5; z<=5; z++){		//z
 
-					if (world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.chest||world.getBlockState(playerPos.add(x, y, z)).getBlock()== Blocks.trapped_chest){
-						TileEntityChest foundchest =(TileEntityChest) world.getTileEntity(playerPos.add(x,y,z));
+					if (world.getBlock((int)player.posX+x,(int)player.posY+y,(int)player.posZ+z)== Blocks.chest||world.getBlock((int)player.posX+x,(int)player.posY+y,(int)player.posZ+z)== Blocks.trapped_chest){
+						TileEntityChest foundchest =(TileEntityChest) world.getTileEntity((int)player.posX+x,(int)player.posY+y,(int)player.posZ+z);
 						chestcounter++;
 						//sendMessage(foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1));
 
-						output.append("\t"+foundchest.getPos().toString().substring(9,foundchest.getPos().toString().length()-1)+"\n");
+						output.append("\tx="+foundchest.xCoord+", y="+foundchest.yCoord+", z="+foundchest.zCoord+"\n");
 						
 						for(int i=0; i<foundchest.getSizeInventory();i++){
 							ItemStack item = foundchest.getStackInSlot(i);
@@ -72,18 +70,16 @@ public class Recording {
 	}
 	public void nearbyItems(EntityPlayer player){
 		World world = player.getEntityWorld();
-		BlockPos playerPos = new BlockPos(player);
 		
-		output.append("Items:"+playerPos.getX()+":"+playerPos.getY()+":"+playerPos.getZ()+"\n");
-		
-		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(playerPos, playerPos).expand(10.0, 10.0, 10.0));
+		output.append("Items:"+player.posX+":"+player.posY+":"+player.posZ+"\n");
+		List<EntityItem> entitylist= world.getEntitiesWithinAABB(EntityItem.class, player.boundingBox.expand(10.0, 10.0, 10.0));
 		if(!entitylist.isEmpty()){
 			itemcounter=entitylist.size();
 			for(int i=0;i<entitylist.size();i++){
 				if(entitylist.get(i).getEntityItem().hasDisplayName()){
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";"+entitylist.get(i).getEntityItem().getDisplayName()+";"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";"+entitylist.get(i).getEntityItem().getDisplayName()+";"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).age+";"+entitylist.get(i).delayBeforeCanPickup+"\n");
 				}else{
-					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";null;"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).getAge()+";"+entitylist.get(i).getThrower()+"\n");
+					output.append("\tItem;"+i+";"+entitylist.get(i).posX+";"+entitylist.get(i).posY+";"+entitylist.get(i).posZ+";"+Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem())+";("+entitylist.get(i).getEntityItem().getUnlocalizedName()+");"+entitylist.get(i).getEntityItem().stackSize+";"+entitylist.get(i).getEntityItem().getItemDamage()+";null;"+entitylist.get(i).getEntityItem().getEnchantmentTagList()+";"+entitylist.get(i).age+";"+entitylist.get(i).delayBeforeCanPickup+"\n");
 				}
 			}
 		}
