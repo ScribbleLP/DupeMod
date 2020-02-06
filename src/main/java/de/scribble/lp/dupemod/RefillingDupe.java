@@ -90,7 +90,7 @@ public class RefillingDupe {
 										
 										NBTTagCompound newnbttag= new NBTTagCompound();
 										try {
-											newnbttag = JsonToNBT.getTagFromJson(items[6]); //items[6]=NBTList such as Enchantments or a custom name
+											newnbttag = JsonToNBT.func_180713_a(items[6]); //items[6]=NBTList such as Enchantments or a custom name
 										} catch (NBTException e) {
 											DupeMod.logger.error("Something happened while trying to convert String to NBT");
 											DupeMod.logger.catching(e);
@@ -151,7 +151,7 @@ public class RefillingDupe {
 							//Adding NBT to the item
 							NBTTagCompound newnbttag= new NBTTagCompound();
 							try {
-								newnbttag = JsonToNBT.getTagFromJson(props[11]);
+								newnbttag = JsonToNBT.func_180713_a(props[11]);
 							} catch (NBTException e) {
 								DupeMod.logger.error("Something happened while trying to convert String to NBT");
 								DupeMod.logger.catching(e);

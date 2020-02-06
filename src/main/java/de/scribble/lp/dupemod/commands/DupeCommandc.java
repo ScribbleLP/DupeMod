@@ -23,7 +23,7 @@ public class DupeCommandc extends CommandBase{
 	}
 	
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		
 		return "dupe";
 	}
@@ -38,7 +38,7 @@ public class DupeCommandc extends CommandBase{
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		if(sender instanceof EntityPlayer && mc.thePlayer.getEntityWorld().isRemote){
 			if(args.length==0||(args[0].equalsIgnoreCase("chest")&&args.length==1)){
 				File file= new File(mc.mcDataDir, "saves" + File.separator +mc.getIntegratedServer().getFolderName()+File.separator+"latest_dupe.txt");
