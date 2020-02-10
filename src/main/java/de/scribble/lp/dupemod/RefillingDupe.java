@@ -160,7 +160,7 @@ public class RefillingDupe {
 							Overflow.stackTagCompound=newnbttag;
 							
 							EntityItem newitem=new EntityItem(world, Double.parseDouble(props[2]), Double.parseDouble(props[3]), Double.parseDouble(props[4]), Overflow);
-							world.spawnEntity(newitem);
+							world.spawnEntityInWorld(newitem);
 							
 							//Apply the age
 							newitem.age=Integer.parseInt(props[9]);

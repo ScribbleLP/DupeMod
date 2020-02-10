@@ -45,10 +45,10 @@ public class DupeEvents {
 	public void startStopping(EntityPlayer player) {
 		StopMoving stopit = new StopMoving();
 		playa= player;
-		Minecraft.getMinecraft().player.motionX=0;
-		Minecraft.getMinecraft().player.motionY=0;
-		Minecraft.getMinecraft().player.motionZ=0;
-		Minecraft.getMinecraft().player.velocityChanged=true;
+		Minecraft.getMinecraft().thePlayer.motionX=0;
+		Minecraft.getMinecraft().thePlayer.motionY=0;
+		Minecraft.getMinecraft().thePlayer.motionZ=0;
+		Minecraft.getMinecraft().thePlayer.velocityChanged=true;
 		playa.setEntityInvulnerable(true);
 		MinecraftForge.EVENT_BUS.register(stopit);
 	}

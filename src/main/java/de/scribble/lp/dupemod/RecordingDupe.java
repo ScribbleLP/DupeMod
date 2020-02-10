@@ -56,7 +56,7 @@ public class RecordingDupe {
 							ItemStack item = foundchest.getStackInSlot(i);
 							if (Item.getIdFromItem(item.getItem())!=0){
 								output.append("\t\tSlot;" + i + ";" + Item.getIdFromItem(item.getItem()) + ";("
-										+ item.getUnlocalizedName() + ");" + item.getCount() + ";"
+										+ item.getUnlocalizedName() + ");" + item.func_190916_E() + ";"
 										+ item.getItemDamage() + ";" + item.stackTagCompound.toString() + "\n");
 							}
 						}
@@ -81,7 +81,7 @@ public class RecordingDupe {
 						+ entitylist.get(i).posZ + ";"
 						+ Item.getIdFromItem(entitylist.get(i).getEntityItem().getItem()) + ";("
 						+ entitylist.get(i).getEntityItem().getUnlocalizedName() + ");"
-						+ entitylist.get(i).getEntityItem().getCount() + ";"
+						+ entitylist.get(i).getEntityItem().func_190916_E() + ";"
 						+ entitylist.get(i).getEntityItem().getItemDamage()+";"
 						+ entitylist.get(i).getAge() + ";" + entitylist.get(i).delayBeforeCanPickup + ";"
 						+ isStackCompound(entitylist.get(i).getEntityItem().stackTagCompound)+"\n");

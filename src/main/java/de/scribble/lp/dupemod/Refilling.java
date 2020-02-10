@@ -147,7 +147,7 @@ public class Refilling {
 								Overflow.setStackDisplayName(props[9]);
 							}
 							EntityItem endidyidem=new EntityItem(world, Double.parseDouble(props[2]), Double.parseDouble(props[3]), Double.parseDouble(props[4]), Overflow);
-							world.spawnEntity(endidyidem);
+							world.spawnEntityInWorld(endidyidem);
 							if(endidyidem.lifespan>Integer.parseInt(props[11])){	//check if value is bigger than the lifespan aka over 6000
 								endidyidem.lifespan=endidyidem.lifespan-Integer.parseInt(props[11]);
 							}
