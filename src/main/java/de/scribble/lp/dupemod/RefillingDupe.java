@@ -6,9 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import io.netty.handler.codec.AsciiHeadersEncoder.NewlineType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -89,22 +87,21 @@ public class RefillingDupe {
 										ItemStack properties= new ItemStack(Item.getItemById(Integer.parseInt(items[2])),
 																								Integer.parseInt(items[4]),
 																								Integer.parseInt(items[5]));
-										
-										/*Split items[7] into enchantmentID and enchantmentLvl*/
+										/*
 										if(!items[7].equals("[]")){
 											enchantments=items[7].split("(\\[\\{lvl:)|(s,id:)|(s\\},\\{lvl:)|(s\\})");
 											for(int index=1;index<=(enchantments.length-2)/2;index++){
 												properties.addEnchantment(Enchantment.getEnchantmentByID(Integer.parseInt(enchantments[2*index])), Integer.parseInt(enchantments[2*index-1]));
 											}
 										}
-										/*Add the custom name if available*/
 										if(!items[6].equals("null")){
 											properties.setStackDisplayName(items[6]);
-										}
+										}*/
+										
 										/*Adding NBT to the item*/
 										NBTTagCompound newnbttag= new NBTTagCompound();
 										try {
-											newnbttag = JsonToNBT.getTagFromJson(items[8]);
+											newnbttag = JsonToNBT.getTagFromJson(items[6]);
 										} catch (NBTException e) {
 											DupeMod.logger.error("Something happened while trying to convert String to NBT");
 											DupeMod.logger.catching(e);
@@ -150,7 +147,7 @@ public class RefillingDupe {
 							ItemStack Overflow= new ItemStack(Item.getItemById(Integer.parseInt(props[5])), //Create the ItemStack
 									Integer.parseInt(props[7]),
 									Integer.parseInt(props[8]));
-							
+							/*
 							if(!props[10].equals("[]")){	//add Enchantments
 								enchantments=props[10].split("(\\[\\{lvl:)|(s,id:)|(s\\},\\{lvl:)|(s\\})");
 								for(int index=1;index<=(enchantments.length-2)/2;index++){
@@ -159,11 +156,11 @@ public class RefillingDupe {
 							}
 							if(!props[9].equals("null")){ //set customName
 								Overflow.setStackDisplayName(props[9]);
-							}
+							}*/
 							//Adding NBT to the item
 							NBTTagCompound newnbttag= new NBTTagCompound();
 							try {
-								newnbttag = JsonToNBT.getTagFromJson(props[13]);
+								newnbttag = JsonToNBT.getTagFromJson(props[11]);
 							} catch (NBTException e) {
 								DupeMod.logger.error("Something happened while trying to convert String to NBT");
 								DupeMod.logger.catching(e);
@@ -174,10 +171,10 @@ public class RefillingDupe {
 							world.spawnEntity(newitem);
 							
 							//Apply the age
-							newitem.age=Integer.parseInt(props[11]);
+							newitem.age=Integer.parseInt(props[9]);
 							
 							//Apply the pickupdelay
-							newitem.pickupDelay=Integer.parseInt(props[12]);
+							newitem.pickupDelay=Integer.parseInt(props[10]);
 							
 							
 							newitem.motionX=0;	//set the motion to zero so it doesn't fly around

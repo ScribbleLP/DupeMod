@@ -1,5 +1,6 @@
 package de.scribble.lp.dupemod;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
@@ -23,7 +24,7 @@ public class DupeMod
     public static final String MODID = "dupemod";
     public static final String VERSION = "${version}";
     public static final String NAME= "DupeMod";
-    public static Logger logger= null;
+    public static Logger logger= LogManager.getLogger("DupeMod");
     private Minecraft mc = Minecraft.getMinecraft();
     
     @Instance
@@ -40,19 +41,18 @@ public class DupeMod
     public static KeyBinding DupeKey = new KeyBinding("Load Chests/Items", Keyboard.KEY_I, "DupeMod");
     
     @EventHandler
-    public void preinit(FMLPreInitializationEvent event){
-    	logger=event.getModLog();
+    public void preinit(FMLPreInitializationEvent ev){
     	logger.info("Initializing");
-    	ClientRegistry.registerKeyBinding(DupeKey);
+    	proxy.preInit(ev);
     }
     
     @EventHandler
-    public void init(FMLInitializationEvent event){
-		MinecraftForge.EVENT_BUS.register(new DupeEvents());
+    public void init(FMLInitializationEvent ev){
+		proxy.Init(ev);
     }
     @EventHandler
-	public void serverStarting(FMLServerStartingEvent event){
-		event.registerServerCommand(new DupeCommandc());
+	public void serverStarting(FMLServerStartingEvent ev){
+		ev.registerServerCommand(new DupeCommandc());
 	}
     
 }

@@ -5,6 +5,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class DupePacket implements IMessage{
 
+	public DupePacket() {
+		
+	}
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		
